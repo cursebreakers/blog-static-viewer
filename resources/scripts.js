@@ -111,60 +111,69 @@ async function renderBlogs(blogs) {
     }
 }
 
-async function renderPosts(blogs) {
-    const postLister = document.getElementById('postLister')
-    console.log('Rendering posts from', blogs)
+
+async function getPosts() {
+    console.log('Getting posts...')
+
+    const POST_API = 'http://192.168.1.242:6969/posts'
+    
+    try {
+
+        const response = await fetch(POST_API)
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch posts');
+        }
+
+        // Parse the JSON response
+        const posts = await response.json();
+
+        console.log(posts)
+        return posts
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        return null;
+    }
+}
+
+async function renderPosts(posts) {
+    const postLister = document.getElementById('postLister');
+    console.log('Rendering posts from', posts);
 
     try {
         postLister.innerHTML = '';
 
-        blogs.forEach(blog => {
-            blog.posts.forEach(post => {
-                if (post.public !== false) {
-                    const postContainer = document.createElement('div');
+        posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-                    const postLink = document.createElement('a');
-                    postLink.href = `http://192.168.1.242:6969/posts/${post._id}`;
-                    postLink.textContent = `${post.title} - ${blog.title}`;
-                    postLink.classList.add('post-link');
-                    postLink.dataset.postId = post._id; 
-                    postContainer.appendChild(postLink);
-                    postContainer.classList.add('post-container');
-                    postLister.appendChild(postContainer);
-                }
-            });
-        });
+        posts.forEach(post => {
+            if (post.public !== false) {
+                const postContainer = document.createElement('div');
 
-        postLister.addEventListener('click', async (event) => {
-            const target = event.target;
-            if (target && target.classList.contains('post-link')) {
-                event.preventDefault();
+                const postLink = document.createElement('a');
+                postLink.href = `http://192.168.1.242:6969/posts/${post._id}`;
+                postLink.textContent = `${post.title} - ${post.author}`;
+                postLink.classList.add('post-link');
+                postLink.dataset.postId = post._id;
+                postContainer.appendChild(postLink);
+                postContainer.classList.add('post-container');
+                postLister.appendChild(postContainer);
 
-                const postId = target.dataset.postId;
-                const postContainer = target.closest('.post-container');
-                const expandedContent = postContainer.querySelector('.expanded-content');
+                const postId = post._id;
 
-                console.log('expanding post', postId)
+                postLink.addEventListener('click', async (event) => {
+                    event.preventDefault();
 
-                if (expandedContent) {
-                    expandedContent.remove();
-                } else {
-                    try {
-                        const response = await fetch(`http://192.168.1.242:6969/posts/${postId}`, {
-                            headers: {
-                                'Cache-Control': 'no-cache',
-                            }
-                        });
-                        const data = await response.json();
+                    const expandedContent = postContainer.querySelector('.expanded-content');
 
+                    console.log('Expanding post', postId, postLink.href);
+
+                    if (expandedContent) {
+                        expandedContent.remove();
+                    } else {
                         // Render expanded content here
                         const newExpandedContent = document.createElement('div');
 
-                        const postContent = data.post;
-
-                        const titleElement = document.createElement('div');
-                        titleElement.textContent = `${postContent.title}`;
-                        newExpandedContent.appendChild(titleElement);
+                        const postContent = post;
 
                         // Render the content field
                         const contentElement = document.createElement('div');
@@ -183,7 +192,7 @@ async function renderPosts(blogs) {
                             newExpandedContent.appendChild(hashtagsElement);
                         }
 
-                        console.log('Rendering comments from', postContent.title, ' ~ ', postContent.comments)
+                        console.log('Rendering comments from', postContent.title, ' ~ ', postContent.comments);
 
                         if (Array.isArray(postContent.comments) && postContent.comments.length > 0) {
                             const commentsElement = document.createElement('div');
@@ -191,27 +200,26 @@ async function renderPosts(blogs) {
                                 const commentElement = document.createElement('div');
                                 commentElement.textContent = `${comment.text} ~ ${comment.username}`;
                                 commentsElement.appendChild(commentElement);
+                                commentElement.classList.add('each-comment');
                             });
-                            
+
                             // Add a link to join the discussion
                             const joinDiscussionLink = document.createElement('a');
                             joinDiscussionLink.href = 'http://192.168.1.242:5173';
                             joinDiscussionLink.textContent = 'Join the Discussion';
                             commentsElement.appendChild(joinDiscussionLink);
-                            
 
                             newExpandedContent.appendChild(commentsElement);
+                            commentsElement.classList.add('commentsElement');
+                            joinDiscussionLink.classList.add('comment-link');
                         }
 
                         newExpandedContent.classList.add('expanded-content');
-                        console.log('Post expanded')
+                        console.log('Post expanded');
 
                         postContainer.appendChild(newExpandedContent);
-
-                    } catch (error) {
-                        console.error('Error fetching post data:', error);
                     }
-                }
+                });
             }
         });
 
@@ -224,9 +232,9 @@ async function init() {
 
     await renderBlogs();
     
-    const blogObjects = await getBlogs();
+    const posts = await getPosts();
 
-    renderPosts(blogObjects.blogs);
+    renderPosts(posts.posts);
 }
 
 init();

@@ -1,112 +1,116 @@
 * {
-    font-family: 'dmsans', monospace;
-    background-color: #111111;
-    color: azure;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: transparent;
+    color: aquamarine;
 }
 
-@font-face {
-    font-family: 'dmsans';
-    src: url(./dmsans.ttf);
-}
 
 body {
     margin: 0;
-    padding: 12px;
-    max-width: 100vw;
-    max-height: 100vh;
-}
-
-h1 {
-    font-size: 32px;
-}
-
-h2 {
-    font-size: 26px;
-}
-
-h3 {
-    font-size: 20px;
+    background-color: #111;
 }
 
 a {
-    color: aquamarine;
-    font-family: monospace;
-    text-decoration: none;
-    border: 1px solid aqua;
-    padding: 12px;
-    width: 100%;
+    font-size: 18px;
+    padding: 8px;
 }
 
 a:hover {
-    color: aqua;
+    color: azure;
+    border-color: aqua;
 }
 
 #header {
-    font-size: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
 }
 
-div {
+#dashLink {
+    padding: 14px;
+    margin: 10px;
+    border: 2px ridge aquamarine;
+    text-decoration: none;
     font-size: 18px;
 }
 
-.postsBox {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+#dashLink:hover {
+    border: 2px ridge aquamarine;
+    color: black;
+    background-color: azure;
+    font-weight: 600;
 }
 
-#postLister {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    width: 100%;
+.postsBox {
+    margin: 0;
+}
+
+.postsBox > h2 {
+    margin: 8px;
+}
+
+.postLister {
+    margin: 0;
 }
 
 .post-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    border-radius: 4px;
-}
-.expanded-content {
-    color: azure;
-    width: 100%;
+    margin: 0;
     padding: 8px;
+    border: 2px ridge aquamarine;
+}
+
+.post-container:hover {
+    border: 2px solid aqua
+}
+
+.post-link {
+    text-decoration: none;
+    padding: 8px;
+}
+
+.expanded-content {
+    padding: 8px;
+    background-color: #111;
+    font-size: 18px;
 }
 
 .expanded-content > div {
+    background-color: blue;
+    color: azure;
     padding: 8px;
-    background-color: darkblue;
+    margin: 0;
 }
 
-.expanded-content > div a {
-    margin: 8px;
-    padding: 4px;
+.commentsElement {
+    display: flex;
+    flex-direction: column;
+    align-items: last baseline;
+    padding: 8px;
 }
-.expanded-content > div div {
+
+.each-comment {
+    border: 2px ridge aquamarine;
     padding: 8px;
     margin: 8px;
-    background-color: #111;
-    border: 1px ridge aqua;
+    font-size: 16px;
+}
+
+.comment-link {
+    background: none;
+    font-size: 16px;
+    padding: 12px;
 }
 
 .blogsBox {
-    display: flex;
-    flex-direction: column;
-    align-items: first baseline;
-    width: 100%;
+    padding: 8px;
 }
 
-#blogViewer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+.blogViewer {
+    padding: 8px;
 }
 
 .blog-container {
     padding: 8px;
-    width: 100%;
+    margin: 0;
 }
