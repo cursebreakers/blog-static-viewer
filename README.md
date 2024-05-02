@@ -18,7 +18,7 @@ Static webpage for public viewing of posts and comments.
 
 - Vanilla JS
 - HTML & CSS
-- Cloudflare CDN
+- GitHub Pages
 
 ### Author:
 
