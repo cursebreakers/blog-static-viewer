@@ -3,7 +3,7 @@
 async function getBlogs() {
     console.log('Getting blogs...')
 
-    const BLOGS_API = 'http://192.168.1.242:6969/profile'
+    const BLOGS_API = 'https://hollow-volcano-ghoul.glitch.me/profile'
     
     try {
 
@@ -37,7 +37,7 @@ async function renderBlogs(blogs) {
             const blogContainer = document.createElement('div');
 
             const blogLink = document.createElement('a');
-            blogLink.href = `http://192.168.1.242:6969${blog.url}`;
+            blogLink.href = `https://hollow-volcano-ghoul.glitch.me/${blog.url}`;
             blogLink.textContent = blog.author.username;
             blogLink.classList.add('blog-link');
 
@@ -57,7 +57,7 @@ async function renderBlogs(blogs) {
                 
                 } else {
                     try {
-                        const response = await fetch(`http://192.168.1.242:6969${blog.url}`);
+                        const response = await fetch(`https://hollow-volcano-ghoul.glitch.me/${blog.url}`);
                         const data = await response.json();
                         // Render expanded content here
                         const newExpandedContent = document.createElement('div');
@@ -115,7 +115,7 @@ async function renderBlogs(blogs) {
 async function getPosts() {
     console.log('Getting posts...')
 
-    const POST_API = 'http://192.168.1.242:6969/posts'
+    const POST_API = 'https://hollow-volcano-ghoul.glitch.me/posts'
     
     try {
 
@@ -150,7 +150,7 @@ async function renderPosts(posts) {
                 const postContainer = document.createElement('div');
 
                 const postLink = document.createElement('a');
-                postLink.href = `http://192.168.1.242:6969/posts/${post._id}`;
+                postLink.href = `https://hollow-volcano-ghoul.glitch.me/posts/${post._id}`;
                 postLink.textContent = `${post.title} - ${post.author}`;
                 postLink.classList.add('post-link');
                 postLink.dataset.postId = post._id;
