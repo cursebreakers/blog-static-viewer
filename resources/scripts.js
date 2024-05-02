@@ -205,7 +205,7 @@ async function renderPosts(posts) {
 
                             // Add a link to join the discussion
                             const joinDiscussionLink = document.createElement('a');
-                            joinDiscussionLink.href = 'http://192.168.1.242:5173';
+                            joinDiscussionLink.href = 'https://a28205f2.blog-react-dashboard.pages.dev';
                             joinDiscussionLink.textContent = 'Join the Discussion';
                             commentsElement.appendChild(joinDiscussionLink);
 
